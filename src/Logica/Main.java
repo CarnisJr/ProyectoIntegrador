@@ -11,8 +11,16 @@ public class Main {
 		
 		biblio.retirarLibro(5);
 		pruebas(biblio);
-		biblio.devolverLibro(5);
-		pruebas(biblio);
+		
+		for(int j = 0; j < 9; j++) {
+			
+			System.out.println(biblio.avanzarDia());
+		}
+
+		for(int i = 0; i < biblio.getTamanioBiblioteca(); i++) {
+			
+			System.out.println(biblio.getLibroBiblioteca(i).getDiasRetirado());
+		}
 	}
 
 	// Para hacer pruebas

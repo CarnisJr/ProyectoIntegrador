@@ -2,11 +2,12 @@ package Logica;
 
 public class Libro {
 	
-
 	private String nombreLibro = "";
 	private String autor = "";
 
 	private int codigoID = 0;
+	private int diasRetirado = 0;
+	private int diasPermisoRetirado = 7;
 
 	private boolean estado = true;
 	
@@ -39,6 +40,25 @@ public class Libro {
 		return this.estado;
 	}
 
+	public int getDiasRetirado() {
+		
+		return this.diasRetirado;
+	}
+
+	public void setDiasRetirado(int sumarDias) {
+		
+		this.diasRetirado = sumarDias;
+	}
+
+	public int getDiasPermisoRetirado() {
+		
+		return this.diasPermisoRetirado;
+	}
+
+	public void setDiasPermisoRetirado(int diasPermisoRetirado) {
+		
+		this.diasPermisoRetirado = diasPermisoRetirado;
+	}
 	public void setEstado(boolean estado) {
 		
 		this.estado = estado;

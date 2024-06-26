@@ -4,11 +4,15 @@ public class Biblioteca {
 
 	//Constantes
 	private final int TAMANIO = 5;
+	private final int MULTA_ATRASO = 5;
 	private final String[] AUTOR_ARRAY = {"Jose Luis Borges", "Gabriel Garcia Marquez", "Julio Cortazar", "Homero", "Edgar Allan Poe"};
 	private final String[] LIBRO_ARRAY = {"El Aleph", "Cronica de una muerte anunciada", "Omnibus", "Odiseo", "Corazon delator"};
 	
 	//Variables
 	private Libro[] librosArray = new Libro[TAMANIO];
+
+	private int dia = 0;
+	private int cont = 0;
 
 	private boolean libroDisponible = false;
 	private boolean penalizado = false;
@@ -36,6 +40,36 @@ public class Biblioteca {
 	public Libro getLibroBiblioteca(int i) {
 		
 		return this.librosArray[i];
+	}
+	
+	
+	//Multar
+	public void multar(int i) {
+		
+		int multa = 0;
+		
+		if(librosArray[i].getDiasPermisoRetirado() < librosArray[i].getDiasRetirado()) {
+			
+				multa = MULTA_ATRASO * librosArray[i].getDiasRetirado();
+				System.out.println("La multa es de " + multa + ", para Juan");
+		}
+	}
+	
+	//Avanzar dia
+	public int avanzarDia() {
+
+		for(int i = 0; i < TAMANIO; i++) {
+
+			if(!librosArray[i].getEstado()) {
+				
+				librosArray[i].setDiasRetirado(this.cont++);
+				multar(i);
+				//asignarMultaCliente(multa);
+				break;
+			}
+		}
+		
+		return this.dia++;
 	}
 	
 	//Retirar Libro
