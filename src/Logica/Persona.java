@@ -47,7 +47,7 @@ public class Persona {
 	//Presentar informacion del cliente
 	public void infoCliente() {
 		
-		System.out.println(".:Informacion del cliente:.");
+		System.out.println("---Informacion del cliente---");
 		System.out.println("Nombre: " + this.nombre);
 		System.out.println("Cedula: " + this.cedula);
 		if(this.estado) {

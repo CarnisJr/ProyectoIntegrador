@@ -90,7 +90,7 @@ public class Libro {
 	//Presentar informacion del libro
 	public void infoLibro() {
 		
-		System.out.println(".:Informacion del libro:.");
+		System.out.println("---Informacion del libro---");
 		System.out.println("Codigo: " + this.codigoID);
 		System.out.println("Nombre: " + this.nombreLibro);
 		System.out.println("Autor: " + this.autor);
@@ -103,5 +103,6 @@ public class Libro {
 			System.out.println("Dias fuera de la biblioteca: " + this.diasRetirado);
 			System.out.println("Cedula cliente con el libro: " + this.cedulaCliente);
 		}
+		System.out.println("");
 	}
 }

@@ -8,38 +8,98 @@ public class Main {
 	public static void main(String[] args) {
 		
 		Biblioteca biblio = new Biblioteca();
+		Persona persona = null;
+
+		int codigoLibro = 0;
+		int selector = 0;
 		
-		ingresarNuevoCliente(biblio);
-		biblio.retirarLibro(5, biblio.getPersona(0));
-
-		for(int i = 0; i < 10; i++) {
+		do {
 			
-			biblio.avanzarDia();
-		}
-
-		ingresarNuevoCliente(biblio);
-		biblio.retirarLibro(2, biblio.getPersona(1));
-		
-		for(int i = 0; i < 2; i++) {
+			System.out.println(".:Menu principal:.");
+			System.out.println("1. Ingresa Cliente");
+			System.out.println("2. Retirar libro");
+			System.out.println("3. Devolver libro");
+			System.out.println("4. Ver lista de multas pendientes");
+			System.out.println("5. Mostrar libros");
+			System.out.println("6. Fondos recaudados por multas");
+			System.out.println("7. Siguiente dia");
+			System.out.println("8. Salir");
+			selector = scan.nextInt();
 			
-			biblio.avanzarDia();
-		}
+			switch(selector) {
+			
+				case 1: 
+					
+					System.out.println(".:Ingresa Cliente:.");
+					ingresarNuevoCliente(biblio);
+					break;
+				case 2: 
 
-		biblio.diasLibroRetirado();
-		biblio.agregarDeudor();
-		biblio.mostrarDeudor();
-		biblio.devolverLibro(5, biblio.getPersona(0));
-		biblio.eliminarDeudor();
-		biblio.mostrarDeudor();
+					System.out.println(".:Retirar un libro:.");
+					persona = buscarCliente(biblio);
+					if(persona == null) {
+						
+						System.out.println("No existe ese cliente");
+						break;
+					}
+					System.out.println("Ingrese el codigo del libro que quiere retirar");
+					codigoLibro = scan.nextInt();
+					biblio.retirarLibro(codigoLibro, persona);
+					break;
+				case 3: 
+
+					System.out.println(".:Devolver un libro:.");
+					persona = buscarCliente(biblio);
+					if(persona == null) {
+						
+						System.out.println("No existe ese cliente");
+						break;
+					}
+					System.out.println("Ingrese el codigo del libro que quiere retirar");
+					codigoLibro = scan.nextInt();
+					biblio.devolverLibro(codigoLibro, persona);
+					biblio.eliminarDeudor();
+					break;
+				case 4: 
+
+					System.out.println(".:Deudores:.");
+					biblio.mostrarDeudor();
+					break;
+				case 5: 
+					
+					System.out.println(".:Listado de libros:.");
+					biblio.mostrarListadoLibros();
+					break;
+				case 6: 
+
+					System.out.println(".:Fondos recaudados de deudores:.");
+					System.out.println("$" + biblio.getFondosRecaudados());
+					break;
+				case 7: 
+
+					biblio.avanzarDia();
+					System.out.println("Se avanzo al dia siguiente (Dia " + biblio.getDia() + ")...");
+					break;
+				case 8: 
+
+					System.out.println(".:Saliendo:.");
+					break;
+				default:
+
+					System.out.println(".:Opcion no disponible:.");
+					break;
+			}
+		}while(selector != 8);
 	}
 
-	// Para hacer pruebas
-	public static void pruebas(Biblioteca biblioteca) {
+	//Buscar Cliente
+	public static Persona buscarCliente(Biblioteca biblioteca) {
 		
-		for(int i = 0; i < biblioteca.getTamanioBiblioteca(); i++) {
-			
-			System.out.println(biblioteca.getLibroBiblioteca(i).getDiasRetirado());
-		}
+		String cedula = "";
+		System.out.println(".:Ingresa Cliente:.");
+		System.out.print("Ingrese la cedula del cliente: ");
+		cedula = scan.next();
+		return biblioteca.buscarCliente(cedula);
 	}
 	
 	//Ingresar Nuevo Cliente
@@ -56,56 +116,4 @@ public class Main {
 		biblioteca.listarNuevoCliente(nombre, cedula);;
 	}
 
-	//Menu
-	public static void desplegarMenu(Biblioteca biblioteca) {
-		
-		int selector = 0;
-		
-		do {
-			
-			System.out.println(".:Menu principal:.");
-			System.out.println("1. Ingresa Cliente");
-			System.out.println("2. Retirar libro");
-			System.out.println("3. Devolver libro");
-			System.out.println("4. Cobrar multa");
-			System.out.println("5. Ver lista de multas pendientes");
-			System.out.println("6. Mostrar libros");
-			System.out.println("7. Fondos recaudados por multas");
-			System.out.println("8. Salir");
-			selector = scan.nextInt();
-			
-			switch(selector) {
-			
-				case 1: 
-					
-					break;
-				case 2: 
-
-					break;
-				case 3: 
-
-					break;
-				case 4: 
-
-					break;
-				case 5: 
-
-					break;
-				case 6: 
-
-					break;
-				case 7: 
-
-					break;
-				case 8: 
-
-					break;
-					
-				default:
-
-					break;
-			}
-		}while(selector != 5);
-		
-	}
 }

@@ -1,6 +1,7 @@
 package Logica;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Biblioteca {
@@ -59,6 +60,11 @@ public class Biblioteca {
 		return listaPersonas.get(i);
 	}
 	
+	public int getFondosRecaudados() {
+		
+		return this.fondosRecaudados;
+	}
+
 	// -----------------------------------------------------------------
 	// Metodos asociados con las funciones de la biblioteca
 	// -----------------------------------------------------------------
@@ -164,6 +170,15 @@ public class Biblioteca {
 			System.out.println("Este libro no pertenece a la biblioteca");
 		}
 	}
+	
+	//Mostrar libros de la biblioteca
+	public void mostrarListadoLibros() {
+		
+		for(int i = 0; i < TAMANIO; i++) {
+			
+			librosArray[i].infoLibro();
+		}
+	}
 
 	// -----------------------------------------------------------------
 	// Metodos asociados con el comportamiento de los clientes
@@ -176,6 +191,18 @@ public class Biblioteca {
 		Persona persona = new Persona(nombre, cedula);
 		
 		listaPersonas.add(persona);
+	}
+	
+	//Buscar Cliente
+	public Persona buscarCliente(String cedula) {
+		
+		for(Persona per : listaPersonas) {
+			if(Objects.equals(per.getCedula(), cedula)) {
+				return per;
+			}
+		}
+		
+		return null;
 	}
 	
 	//Agregar cliente a lista de deudores
