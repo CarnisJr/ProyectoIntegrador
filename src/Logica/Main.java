@@ -26,9 +26,11 @@ public class Main {
 		}
 
 		biblio.diasLibroRetirado();
-		System.out.println("Dia: " + biblio.getDia());
-		System.out.println("per 1: " + biblio.getPersona(0).getMulta());
-		System.out.println("per 2: " + biblio.getPersona(1).getMulta());
+		biblio.agregarDeudor();
+		biblio.mostrarDeudor();
+		biblio.devolverLibro(5, biblio.getPersona(0));
+		biblio.eliminarDeudor();
+		biblio.mostrarDeudor();
 	}
 
 	// Para hacer pruebas
@@ -54,4 +56,56 @@ public class Main {
 		biblioteca.listarNuevoCliente(nombre, cedula);;
 	}
 
+	//Menu
+	public static void desplegarMenu(Biblioteca biblioteca) {
+		
+		int selector = 0;
+		
+		do {
+			
+			System.out.println(".:Menu principal:.");
+			System.out.println("1. Ingresa Cliente");
+			System.out.println("2. Retirar libro");
+			System.out.println("3. Devolver libro");
+			System.out.println("4. Cobrar multa");
+			System.out.println("5. Ver lista de multas pendientes");
+			System.out.println("6. Mostrar libros");
+			System.out.println("7. Fondos recaudados por multas");
+			System.out.println("8. Salir");
+			selector = scan.nextInt();
+			
+			switch(selector) {
+			
+				case 1: 
+					
+					break;
+				case 2: 
+
+					break;
+				case 3: 
+
+					break;
+				case 4: 
+
+					break;
+				case 5: 
+
+					break;
+				case 6: 
+
+					break;
+				case 7: 
+
+					break;
+				case 8: 
+
+					break;
+					
+				default:
+
+					break;
+			}
+		}while(selector != 5);
+		
+	}
 }

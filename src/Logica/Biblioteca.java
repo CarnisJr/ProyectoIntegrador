@@ -1,9 +1,12 @@
 package Logica;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Biblioteca {
 
+	Scanner scan = new Scanner(System.in);
+	
 	//Constantes
 	private final int TAMANIO = 5;
 	private final int MULTA_ATRASO = 5;
@@ -14,17 +17,13 @@ public class Biblioteca {
 	private Libro[] librosArray = new Libro[TAMANIO];
 	
 	List<Persona> listaPersonas = new ArrayList<Persona>();
+	List<Persona> listaDeudores = new ArrayList<Persona>();
 
 	private int dia = 0;
-	private int cont = 0;
 
-	private boolean libroDisponible = false;
-	private boolean penalizado = false;
-	
 	//Multa y fondos estan medida en dolares
-	private int multa = 5;
 	private	int asignarMulta = 0;
-	private double fondosRecaudados = 0;
+	private int fondosRecaudados = 0;
 	
 	public Biblioteca() {
 		
@@ -36,7 +35,10 @@ public class Biblioteca {
 		}
 	}
 
-	//Getter Setters
+	// -----------------------------------------------------------------
+	// Getters y Setters
+	// -----------------------------------------------------------------
+
 	public int getTamanioBiblioteca() {
 		
 		return this.TAMANIO;
@@ -57,14 +59,16 @@ public class Biblioteca {
 		return listaPersonas.get(i);
 	}
 	
-	//Ingresar nuevo cliente
-	public void listarNuevoCliente(String nombre, String cedula) {
-		
-		Persona persona = new Persona(nombre, cedula);
-		
-		listaPersonas.add(persona);
+	// -----------------------------------------------------------------
+	// Metodos asociados con las funciones de la biblioteca
+	// -----------------------------------------------------------------
+
+	//Avanzar dia
+	public int avanzarDia() {
+
+		return this.dia++;
 	}
-	
+
 	//Multar
 	public void multar() {
 		
@@ -73,7 +77,7 @@ public class Biblioteca {
 				for(Persona per : listaPersonas) {
 					if(per.getCodigoLibroRetirado() == librosArray[i].getCodigoID()) {
 						
-						this.asignarMulta = multa * (librosArray[i].getDiasRetirado() - librosArray[i].getDiasPermisoRetirado());
+						this.asignarMulta = MULTA_ATRASO * (librosArray[i].getDiasRetirado() - librosArray[i].getDiasPermisoRetirado());
 						per.setMulta(this.asignarMulta);
 						break;
 					}
@@ -82,11 +86,20 @@ public class Biblioteca {
 		}
 	}
 	
-	//Calcular los dias que ha estado el lubro fuera
+	//Mostrar fondos recaudados por deudores
+	public int mostrarFondos() {
+		
+		return this.fondosRecaudados;
+	}
+
+	// -----------------------------------------------------------------
+	// Metodos asociados con el comportamiento de los libros
+	// -----------------------------------------------------------------
+
+	//Calcular los dias que ha estado el libro fuera
 	public void diasLibroRetirado() {
 		
 		for(int i = 0; i < TAMANIO; i++) { 
-
 			if(!librosArray[i].getEstado()) {
 				
 				librosArray[i].setDiasRetirado(this.dia - librosArray[i].getDiaSalida());
@@ -94,12 +107,6 @@ public class Biblioteca {
 		}
 
 		multar();
-	}
-	
-	//Avanzar dia
-	public int avanzarDia() {
-
-		return this.dia++;
 	}
 	
 	//Retirar Libro
@@ -112,6 +119,7 @@ public class Biblioteca {
 				
 				librosArray[i].setEstado(false);
 				librosArray[i].setDiaSalida(this.dia);
+				librosArray[i].setCedulaCliente(per.getCedula());
 				per.setCodigoLibroRetirado(librosArray[i].getCodigoID());
 				flag = true;
 				break;
@@ -128,13 +136,25 @@ public class Biblioteca {
 	public void devolverLibro(int codigoLibro, Persona per) {
 		
 		boolean flag = false;
+		int pagarMulta = 0;
 
 		for(int i = 0; i < TAMANIO; i++) {
-			if(librosArray[i].getCodigoID() == codigoLibro && !librosArray[i].getEstado()) {
+			if(per.getMulta() == 0) {
+				if(librosArray[i].getCodigoID() == codigoLibro && !librosArray[i].getEstado()) {
+					
+					librosArray[i].setEstado(true);
+					per.setCodigoLibroRetirado(0);
+					flag = true;
+					break;
+				}
+			}else {
 				
-				librosArray[i].setEstado(true);
-				per.setCodigoLibroRetirado(0);
-				flag= true;
+				System.out.println("Existe una multa de $" + per.getMulta());
+				System.out.print("Ingrese el monto total a pagar: ");
+				pagarMulta = scan.nextInt();
+				this.fondosRecaudados += pagarMulta;
+				per.setMulta(0);
+				flag = true;
 				break;
 			}
 		}
@@ -145,4 +165,53 @@ public class Biblioteca {
 		}
 	}
 
+	// -----------------------------------------------------------------
+	// Metodos asociados con el comportamiento de los clientes
+	// -----------------------------------------------------------------
+	
+	
+	//Ingresar nuevo cliente
+	public void listarNuevoCliente(String nombre, String cedula) {
+		
+		Persona persona = new Persona(nombre, cedula);
+		
+		listaPersonas.add(persona);
+	}
+	
+	//Agregar cliente a lista de deudores
+	public void agregarDeudor() {
+		
+		for(Persona per : listaPersonas) {
+			if(per.getMulta() != 0) {
+				
+				this.listaDeudores.add(per);
+			}
+		}
+	}
+	
+	//Quitar cliente a lista de deudores
+	public void eliminarDeudor() {
+		
+		for(Persona per : listaPersonas) {
+			if(per.getMulta() == 0) {
+				
+				this.listaDeudores.remove(per);
+			}
+		}
+	}
+
+	//Mostrar lista de deudores
+	public void mostrarDeudor() {
+	
+		if(listaDeudores.isEmpty()) {
+			
+			System.out.println("No hay deudores");
+		}else {
+
+			for(Persona per : listaDeudores) {
+
+				per.infoCliente();	
+			}
+		}
+	}
 }

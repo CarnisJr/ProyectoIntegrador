@@ -4,6 +4,7 @@ public class Libro {
 	
 	private String nombreLibro = "";
 	private String autor = "";
+	private String cedulaCliente = "";
 
 	private int codigoID = 0;
 	private int diasRetirado = 0;
@@ -70,8 +71,37 @@ public class Libro {
 		
 		this.diasPermisoRetirado = diasPermisoRetirado;
 	}
+
 	public void setEstado(boolean estado) {
 		
 		this.estado = estado;
+	}
+
+	public void setCedulaCliente(String cedulaCliente) {
+		
+		this.cedulaCliente = cedulaCliente;
+	}
+
+	public String getCedulaCliente() {
+		
+		return this.cedulaCliente;
+	}
+	
+	//Presentar informacion del libro
+	public void infoLibro() {
+		
+		System.out.println(".:Informacion del libro:.");
+		System.out.println("Codigo: " + this.codigoID);
+		System.out.println("Nombre: " + this.nombreLibro);
+		System.out.println("Autor: " + this.autor);
+		if(this.estado) {
+			
+			System.out.println("Estado: Disponible");
+		}else {
+			
+			System.out.println("Estado: No Disponible");
+			System.out.println("Dias fuera de la biblioteca: " + this.diasRetirado);
+			System.out.println("Cedula cliente con el libro: " + this.cedulaCliente);
+		}
 	}
 }

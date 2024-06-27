@@ -5,7 +5,6 @@ public class Persona {
 	private int multa = 0;
 	private String nombre = "";
 	private String cedula = "";
-	private boolean tieneLibro = false;
 	private boolean estado = false;
 	private int codigoLibroRetirado = 0;
 	
@@ -43,5 +42,21 @@ public class Persona {
 	public void setCodigoLibroRetirado(int codigoLibro) {
 		
 		this.codigoLibroRetirado = codigoLibro;
+	}
+
+	//Presentar informacion del cliente
+	public void infoCliente() {
+		
+		System.out.println(".:Informacion del cliente:.");
+		System.out.println("Nombre: " + this.nombre);
+		System.out.println("Cedula: " + this.cedula);
+		if(this.estado) {
+			
+			System.out.println("No tiene deudas pendientes");
+		}else {
+			
+			System.out.println("Tiene deudas pendientes");
+			System.out.println("Deuda: " + this.multa);
+		}
 	}
 }
