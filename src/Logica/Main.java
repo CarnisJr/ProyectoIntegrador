@@ -9,18 +9,26 @@ public class Main {
 		
 		Biblioteca biblio = new Biblioteca();
 		
-		biblio.retirarLibro(5);
-		pruebas(biblio);
-		
-		for(int j = 0; j < 9; j++) {
+		ingresarNuevoCliente(biblio);
+		biblio.retirarLibro(5, biblio.getPersona(0));
+
+		for(int i = 0; i < 10; i++) {
 			
-			System.out.println(biblio.avanzarDia());
+			biblio.avanzarDia();
 		}
 
-		for(int i = 0; i < biblio.getTamanioBiblioteca(); i++) {
+		ingresarNuevoCliente(biblio);
+		biblio.retirarLibro(2, biblio.getPersona(1));
+		
+		for(int i = 0; i < 2; i++) {
 			
-			System.out.println(biblio.getLibroBiblioteca(i).getDiasRetirado());
+			biblio.avanzarDia();
 		}
+
+		biblio.diasLibroRetirado();
+		System.out.println("Dia: " + biblio.getDia());
+		System.out.println("per 1: " + biblio.getPersona(0).getMulta());
+		System.out.println("per 2: " + biblio.getPersona(1).getMulta());
 	}
 
 	// Para hacer pruebas
@@ -28,9 +36,22 @@ public class Main {
 		
 		for(int i = 0; i < biblioteca.getTamanioBiblioteca(); i++) {
 			
-			System.out.println(biblioteca.getLibroBiblioteca(i).getEstado());
+			System.out.println(biblioteca.getLibroBiblioteca(i).getDiasRetirado());
 		}
+	}
+	
+	//Ingresar Nuevo Cliente
+	public static void ingresarNuevoCliente(Biblioteca biblioteca) {
 		
+		String nombre = "";
+		String cedula = "";
+		
+		System.out.print("Ingresa el nombre: ");
+		nombre = scan.next();
+		System.out.print("Ingresa la cedula: ");
+		cedula = scan.next();
+		
+		biblioteca.listarNuevoCliente(nombre, cedula);;
 	}
 
 }

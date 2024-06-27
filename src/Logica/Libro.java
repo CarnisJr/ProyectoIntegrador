@@ -7,6 +7,7 @@ public class Libro {
 
 	private int codigoID = 0;
 	private int diasRetirado = 0;
+	private int diaDeSalida = 0;
 	private int diasPermisoRetirado = 7;
 
 	private boolean estado = true;
@@ -48,6 +49,16 @@ public class Libro {
 	public void setDiasRetirado(int sumarDias) {
 		
 		this.diasRetirado = sumarDias;
+	}
+
+	public int getDiaSalida() {
+		
+		return this.diaDeSalida;
+	}
+
+	public void setDiaSalida(int diaSalida) {
+		
+		this.diaDeSalida = diaSalida;
 	}
 
 	public int getDiasPermisoRetirado() {

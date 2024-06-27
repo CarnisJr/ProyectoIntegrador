@@ -1,4 +1,6 @@
 package Logica;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Biblioteca {
 
@@ -10,6 +12,8 @@ public class Biblioteca {
 	
 	//Variables
 	private Libro[] librosArray = new Libro[TAMANIO];
+	
+	List<Persona> listaPersonas = new ArrayList<Persona>();
 
 	private int dia = 0;
 	private int cont = 0;
@@ -18,7 +22,8 @@ public class Biblioteca {
 	private boolean penalizado = false;
 	
 	//Multa y fondos estan medida en dolares
-	private double multa = 10;
+	private int multa = 5;
+	private	int asignarMulta = 0;
 	private double fondosRecaudados = 0;
 	
 	public Biblioteca() {
@@ -42,48 +47,73 @@ public class Biblioteca {
 		return this.librosArray[i];
 	}
 	
+	public int getDia() {
+		
+		return this.dia;
+	}
+	
+	public Persona getPersona(int i){
+		
+		return listaPersonas.get(i);
+	}
+	
+	//Ingresar nuevo cliente
+	public void listarNuevoCliente(String nombre, String cedula) {
+		
+		Persona persona = new Persona(nombre, cedula);
+		
+		listaPersonas.add(persona);
+	}
 	
 	//Multar
-	public void multar(int i) {
+	public void multar() {
 		
-		int multa = 0;
-		
-		if(librosArray[i].getDiasPermisoRetirado() < librosArray[i].getDiasRetirado()) {
-			
-				multa = MULTA_ATRASO * librosArray[i].getDiasRetirado();
-				System.out.println("La multa es de " + multa + ", para Juan");
+		for(int i = 0; i < TAMANIO; i++) {
+			if(librosArray[i].getDiasRetirado() > librosArray[i].getDiasPermisoRetirado()) {
+				for(Persona per : listaPersonas) {
+					if(per.getCodigoLibroRetirado() == librosArray[i].getCodigoID()) {
+						
+						this.asignarMulta = multa * (librosArray[i].getDiasRetirado() - librosArray[i].getDiasPermisoRetirado());
+						per.setMulta(this.asignarMulta);
+						break;
+					}
+				}
+			}
 		}
+	}
+	
+	//Calcular los dias que ha estado el lubro fuera
+	public void diasLibroRetirado() {
+		
+		for(int i = 0; i < TAMANIO; i++) { 
+
+			if(!librosArray[i].getEstado()) {
+				
+				librosArray[i].setDiasRetirado(this.dia - librosArray[i].getDiaSalida());
+			}
+		}
+
+		multar();
 	}
 	
 	//Avanzar dia
 	public int avanzarDia() {
 
-		for(int i = 0; i < TAMANIO; i++) {
-
-			if(!librosArray[i].getEstado()) {
-				
-				librosArray[i].setDiasRetirado(this.cont++);
-				multar(i);
-				//asignarMultaCliente(multa);
-				break;
-			}
-		}
-		
 		return this.dia++;
 	}
 	
 	//Retirar Libro
-	public void retirarLibro(int codigoLibro) {
+	public void retirarLibro(int codigoLibro, Persona per) {
 		
 		boolean flag = false;
 
 		for(int i = 0; i < TAMANIO; i++) {
-
 			if(librosArray[i].getCodigoID() == codigoLibro && librosArray[i].getEstado()) {
 				
 				librosArray[i].setEstado(false);
-				System.out.println(librosArray[i].getNombreLibro());
-				flag= true;
+				librosArray[i].setDiaSalida(this.dia);
+				per.setCodigoLibroRetirado(librosArray[i].getCodigoID());
+				flag = true;
 				break;
 			}
 		}
@@ -95,16 +125,15 @@ public class Biblioteca {
 	}
 	
 	//Devolver libro
-	public void devolverLibro(int codigoLibro) {
+	public void devolverLibro(int codigoLibro, Persona per) {
 		
 		boolean flag = false;
 
 		for(int i = 0; i < TAMANIO; i++) {
-
 			if(librosArray[i].getCodigoID() == codigoLibro && !librosArray[i].getEstado()) {
 				
 				librosArray[i].setEstado(true);
-				System.out.println(librosArray[i].getNombreLibro());
+				per.setCodigoLibroRetirado(0);
 				flag= true;
 				break;
 			}
