@@ -135,18 +135,21 @@ public class Biblioteca {
 		if(flag == false) {
 			
 			System.out.println("No existe ese libro o no esta disponible");
+		}else {
+			
+			System.out.println("El libro ha sido retirado con exito");
 		}
 	}
 	
 	//Devolver libro
-	public void devolverLibro(int codigoLibro, Persona per) {
+	public void devolverLibro(Persona per) {
 		
 		boolean flag = false;
 		int pagarMulta = 0;
 
 		for(int i = 0; i < TAMANIO; i++) {
 			if(per.getMulta() == 0) {
-				if(librosArray[i].getCodigoID() == codigoLibro && !librosArray[i].getEstado()) {
+				if(librosArray[i].getCodigoID() == per.getCodigoLibroRetirado() && !librosArray[i].getEstado()) {
 					
 					librosArray[i].setEstado(true);
 					per.setCodigoLibroRetirado(0);
@@ -167,7 +170,10 @@ public class Biblioteca {
 		
 		if(flag == false) {
 			
-			System.out.println("Este libro no pertenece a la biblioteca");
+			System.out.println("El cliente no tiene ningun libro");
+		}else {
+			
+			System.out.println("El libro ha sido devuelto");
 		}
 	}
 	

@@ -54,15 +54,16 @@ public class Main {
 						
 						System.out.println("No existe ese cliente");
 						break;
+					}else {
+						
+						biblio.devolverLibro(persona);
+						biblio.eliminarDeudor();
 					}
-					System.out.println("Ingrese el codigo del libro que quiere retirar");
-					codigoLibro = scan.nextInt();
-					biblio.devolverLibro(codigoLibro, persona);
-					biblio.eliminarDeudor();
 					break;
 				case 4: 
 
 					System.out.println(".:Deudores:.");
+					biblio.agregarDeudor();
 					biblio.mostrarDeudor();
 					break;
 				case 5: 
@@ -78,6 +79,7 @@ public class Main {
 				case 7: 
 
 					biblio.avanzarDia();
+					biblio.diasLibroRetirado();
 					System.out.println("Se avanzo al dia siguiente (Dia " + biblio.getDia() + ")...");
 					break;
 				case 8: 
@@ -96,7 +98,6 @@ public class Main {
 	public static Persona buscarCliente(Biblioteca biblioteca) {
 		
 		String cedula = "";
-		System.out.println(".:Ingresa Cliente:.");
 		System.out.print("Ingrese la cedula del cliente: ");
 		cedula = scan.next();
 		return biblioteca.buscarCliente(cedula);
@@ -112,8 +113,13 @@ public class Main {
 		nombre = scan.next();
 		System.out.print("Ingresa la cedula: ");
 		cedula = scan.next();
-		
-		biblioteca.listarNuevoCliente(nombre, cedula);;
+		if(biblioteca.buscarCliente(cedula) != null) {
+			
+			System.out.println("Ya existe este cliente");
+		}else {
+			
+			biblioteca.listarNuevoCliente(nombre, cedula);;
+		}
 	}
 
 }
